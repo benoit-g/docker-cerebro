@@ -5,21 +5,36 @@ cerebro is an open source(MIT License) elasticsearch web admin tool built using 
 
 ### Requirements
 
-cerebro needs Java 1.8 or newer to run.
+Docker Engine running.
 
 ### Installation
-- Download from [https://github.com/lmenezes/cerebro/releases](https://github.com/lmenezes/cerebro/releases)
-- Extract files
-- Run bin/cerebro(or bin/cerebro.bat if on Windows)
+- Download latest docker image:
+```
+docker pull benoit/cerebro
+```
+
+- Start container:
+```
+docker run --detach \
+  --name=cerebro \
+  --restart=always \
+  --publish=9000:9000 \
+  benoit/cerebro
+```
 - Access on http://localhost:9000
 
 ### Configuration
 
 #### HTTP server address and port
-You can run cerebro listening on a different host and port(defaults to 0.0.0.0:9000):
+You can run cerebro listening on a different port(defaults to 9000) by adding parameters on the command line:
 
 ```
-bin/cerebro -Dhttp.port=1234 -Dhttp.address=127.0.0.1
+docker run --detach \
+  --name=cerebro \
+  --restart=always \
+  --publish=1234:1234 \
+  benoit/cerebro \
+  -Dhttp.port=1234
 ```
 
 #### Other settings
@@ -29,5 +44,10 @@ Other settings are exposed through the **conf/application.conf** file found on t
 It is also possible to use an alternate configuration file defined on a different location:
 
 ```
-bin/cerebro -Dconfig.file=/some/other/dir/alternate.conf
+docker run --detach \
+  --name=cerebro \
+  --restart=always \
+  --publish=9000:9000 \
+  --volume=path/to/config:/conf/application.conf
+  benoit/cerebro
 ```
